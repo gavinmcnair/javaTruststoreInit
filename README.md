@@ -43,13 +43,13 @@ metadata:
 spec:
   initContainers:
     - name: javaTruststoreInit
-      image: gavinmcnair/javatruststoreinit:v1.0.3
+      image: gavinmcnair/javatruststoreinit:v1.0.0
       env:
-        - name: KEY
+        - name: KAFKA_KEY
           value: "pem encoded key"
-        - name: CERTIFICATE
+        - name: KAFKA_CERT
           value: "pem encoded cert"
-        - name: KAFKA_CA_FILE
+        - name: KAFKA_CA
           value: "pem encoded ca"
       volumeMounts:
         - mountPath: /var/run/secrets
