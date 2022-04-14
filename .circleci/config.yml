@@ -1,0 +1,43 @@
+version: 2.1
+
+jobs:
+
+  build:
+    docker:
+      - image: docker:18.06.1-ce-git 
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: install dependencies
+          command: apk add --update alpine-sdk
+      - run:
+          name: build docker image
+          command: make build
+
+  release:
+    docker:
+      - image: circleci/golang:1.17
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: login
+          command: make login
+      - run: curl -sL https://git.io/goreleaser | bash
+
+workflows:
+  version: 2
+  flow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - main
+      - release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*(-.*)*/

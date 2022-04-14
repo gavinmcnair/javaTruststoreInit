@@ -1,0 +1,5 @@
+FROM scratch
+MAINTAINER Gavin McNair <gavinmcnair@gmail.com>
+
+COPY javatruststoreinit .
+CMD [ "/javatruststoreinit" ]
